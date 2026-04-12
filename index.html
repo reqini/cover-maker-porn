@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ThumbCraft PRO</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0a0a0f; --sur:#12121a; --sur2:#1a1a28; --brd:#2a2a40;
+  --acc:#ff4d00; --acc2:#ff9500; --txt:#f0f0f0; --mut:#6b6b8a;
+  --ok:#00e676; --sel:rgba(255,77,0,.15);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;
+     display:flex;flex-direction:column;height:100vh;overflow:hidden}
+
+/* HEADER */
+.hdr{background:var(--sur);border-bottom:1px solid var(--brd);padding:12px 20px;
+     display:flex;align-items:center;gap:12px;flex-shrink:0}
+.hdr-logo{font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:3px;
+          background:linear-gradient(135deg,var(--acc),var(--acc2));
+          -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hdr-badge{background:var(--acc);color:#fff;font-size:10px;font-weight:700;
+           padding:2px 7px;border-radius:4px;letter-spacing:1px}
+.hdr-right{margin-left:auto;font-size:11px;color:var(--mut)}
+
+/* LAYOUT */
+.workspace{display:flex;flex:1;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:270px;min-width:270px;background:var(--sur);border-right:1px solid var(--brd);
+         overflow-y:auto;display:flex;flex-direction:column}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--brd);border-radius:4px}
+
+.sec{border-bottom:1px solid var(--brd);padding:14px}
+.sec-ttl{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--mut);
+         text-transform:uppercase;margin-bottom:10px}
+
+/* platforms */
+.plat-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.plat-btn{background:var(--sur2);border:1px solid var(--brd);border-radius:7px;
+          padding:7px 5px;cursor:pointer;text-align:center;font-family:'DM Sans',sans-serif;
+          color:var(--mut);font-size:10px;transition:.15s}
+.plat-btn:hover{border-color:var(--acc);color:var(--txt)}
+.plat-btn.on{border-color:var(--acc);background:var(--sel);color:var(--txt)}
+.plat-btn .pi{font-size:16px;display:block;margin-bottom:2px}
+.plat-btn .pn{font-weight:700;font-size:9px;letter-spacing:.5px}
+
+/* type pills */
+.pills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.pill{background:var(--sur2);border:1px solid var(--brd);border-radius:20px;
+      padding:4px 11px;font-size:10px;cursor:pointer;color:var(--mut);
+      font-family:'DM Sans',sans-serif;transition:.15s}
+.pill:hover{border-color:var(--acc);color:var(--txt)}
+.pill.on{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:700}
+
+/* spec badge */
+.spec-badge{background:var(--sur2);border-radius:6px;padding:8px;font-size:11px;
+            color:var(--mut);margin-top:4px}
+.spec-badge b{color:var(--acc2)}
+
+/* upload button - label wraps hidden input */
+.upbtn{display:flex;align-items:center;gap:8px;padding:10px 12px;
+       background:var(--sur2);border:1.5px dashed var(--brd);border-radius:8px;
+       cursor:pointer;font-size:12px;color:var(--mut);transition:.15s;width:100%}
+.upbtn:hover{border-color:var(--acc);color:var(--txt);background:var(--sel)}
+.upbtn input[type=file]{display:none}
+.upbtn .ui{font-size:20px;flex-shrink:0}
+
+/* preview strips */
+.prev-strip{margin-top:8px;display:flex;gap:8px;align-items:center}
+.prev-thumb{width:52px;height:34px;object-fit:cover;border-radius:4px;border:1px solid var(--brd);flex-shrink:0}
+.prev-logo{width:42px;height:42px;object-fit:contain;border-radius:4px;border:1px solid var(--brd);background:var(--sur2);flex-shrink:0}
+.prev-info{font-size:10px;color:var(--mut);line-height:1.5}
+
+/* controls */
+.row{display:flex;align-items:center;gap:6px;margin-bottom:7px}
+.row label{font-size:10px;color:var(--mut);min-width:42px;white-space:nowrap}
+select,input[type=number]{background:var(--sur2);border:1px solid var(--brd);
+  border-radius:5px;color:var(--txt);padding:5px 7px;font-size:11px;
+  font-family:'DM Sans',sans-serif;outline:none;flex:1}
+select:focus,input[type=number]:focus{border-color:var(--acc)}
+input[type=color]{width:34px;height:28px;border:1px solid var(--brd);border-radius:5px;
+                  cursor:pointer;background:none;padding:2px;flex-shrink:0}
+input[type=range]{flex:1;accent-color:var(--acc);cursor:pointer}
+.rval{font-size:10px;color:var(--acc2);min-width:24px;text-align:right}
+
+/* style btns */
+.style-btns{display:flex;gap:4px}
+.sbtn{padding:4px 9px;border:1px solid var(--brd);background:var(--sur2);
+      color:var(--mut);border-radius:5px;cursor:pointer;font-size:12px;
+      font-family:'DM Sans',sans-serif;transition:.15s;font-weight:700}
+.sbtn:hover,.sbtn.on{border-color:var(--acc);color:var(--txt);background:var(--sel)}
+
+/* toggle */
+.tog-row{display:flex;align-items:center;justify-content:space-between;
+         font-size:10px;color:var(--mut);margin-bottom:7px}
+.tog{width:30px;height:17px;background:var(--brd);border-radius:9px;
+     position:relative;cursor:pointer;transition:.2s;flex-shrink:0}
+.tog.on{background:var(--acc)}
+.tog::after{content:'';position:absolute;width:13px;height:13px;background:#fff;
+            border-radius:50%;top:2px;left:2px;transition:.2s}
+.tog.on::after{left:15px}
+
+/* action buttons */
+.btn{display:flex;align-items:center;justify-content:center;gap:5px;
+     padding:8px 12px;border:none;border-radius:7px;font-weight:700;font-size:12px;
+     cursor:pointer;transition:.15s;font-family:'DM Sans',sans-serif;width:100%}
+.btn+.btn{margin-top:5px}
+.btn-pri{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff}
+.btn-pri:hover{opacity:.9;transform:translateY(-1px)}
+.btn-sec{background:var(--sur2);color:var(--txt);border:1px solid var(--brd)}
+.btn-sec:hover{border-color:var(--acc)}
+.btn-del{background:rgba(255,50,50,.12);color:#ff5555;border:1px solid rgba(255,50,50,.25)}
+.btn-del:hover{background:rgba(255,50,50,.22)}
+.btn-sm{width:auto;padding:5px 9px;font-size:10px;flex:1}
+
+/* layers list */
+.layers{display:flex;flex-direction:column;gap:3px;max-height:130px;overflow-y:auto;margin-bottom:8px}
+.li{display:flex;align-items:center;gap:7px;padding:6px 8px;border-radius:6px;
+    background:var(--sur2);border:1px solid transparent;cursor:pointer;font-size:11px;transition:.12s}
+.li:hover{border-color:var(--brd)}
+.li.on{border-color:var(--acc);background:var(--sel)}
+.li .lic{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.li .lid{color:var(--mut);font-size:13px;padding:1px 4px;border-radius:3px;cursor:pointer}
+.li .lid:hover{background:rgba(255,50,50,.2);color:#ff5555}
+
+/* export formats */
+.fmts{display:flex;gap:5px;margin-bottom:8px}
+.fmt{flex:1;padding:5px;border:1px solid var(--brd);border-radius:5px;
+     background:var(--sur2);color:var(--mut);font-size:11px;font-weight:700;
+     cursor:pointer;text-align:center;font-family:'DM Sans',sans-serif;transition:.15s}
+.fmt:hover,.fmt.on{border-color:var(--acc);color:var(--txt);background:var(--sel)}
+
+/* CANVAS AREA */
+.canvas-area{flex:1;display:flex;align-items:center;justify-content:center;
+             background:#060609;position:relative;overflow:hidden}
+.grid-bg{position:absolute;inset:0;pointer-events:none;
+         background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+                          linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+         background-size:30px 30px}
+
+#canvas{display:block;border-radius:5px;
+        box-shadow:0 0 0 1px var(--brd),0 16px 50px rgba(0,0,0,.8);
+        cursor:default;position:relative;z-index:1}
+
+/* drop overlay */
+.drop-msg{position:absolute;inset:0;display:flex;flex-direction:column;
+          align-items:center;justify-content:center;gap:10px;z-index:0;pointer-events:none}
+.drop-msg.hidden{display:none}
+.drop-msg .di{font-size:52px;opacity:.12}
+.drop-msg .dt{font-size:13px;color:var(--mut)}
+
+/* toolbar */
+.ctbar{position:absolute;top:14px;left:50%;transform:translateX(-50%);
+       display:flex;gap:4px;background:rgba(10,10,15,.92);border:1px solid var(--brd);
+       border-radius:9px;padding:5px 8px;z-index:10;backdrop-filter:blur(8px)}
+.tb{background:none;border:1px solid transparent;border-radius:5px;color:var(--mut);
+    width:30px;height:30px;display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:13px;transition:.12s;font-family:'DM Sans',sans-serif;font-weight:700}
+.tb:hover{border-color:var(--brd);color:var(--txt)}
+.tb.on{border-color:var(--acc);background:var(--sel);color:var(--acc)}
+.tb-sep{width:1px;background:var(--brd);margin:4px 2px}
+
+/* zoom */
+.zoom-bar{position:absolute;bottom:14px;right:14px;display:flex;gap:3px;
+          background:rgba(10,10,15,.92);border:1px solid var(--brd);
+          border-radius:7px;padding:3px;z-index:10}
+.zb{background:none;border:none;color:var(--mut);width:26px;height:26px;
+    border-radius:4px;cursor:pointer;font-size:15px;display:flex;align-items:center;
+    justify-content:center;font-family:'DM Sans',sans-serif}
+.zb:hover{background:var(--sur2);color:var(--txt)}
+.zlbl{font-size:10px;color:var(--mut);display:flex;align-items:center;padding:0 5px;min-width:36px;text-align:center}
+
+/* status */
+.stbar{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+       font-size:10px;color:var(--mut);background:rgba(10,10,15,.85);
+       border:1px solid var(--brd);border-radius:5px;padding:3px 9px;pointer-events:none;z-index:10}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;
+          display:none;align-items:center;justify-content:center}
+.modal-bg.vis{display:flex}
+.modal{background:var(--sur);border:1px solid var(--brd);border-radius:12px;
+       padding:22px;width:360px;box-shadow:0 20px 60px rgba(0,0,0,.8)}
+.modal h4{font-size:13px;margin-bottom:14px}
+.modal textarea{width:100%;background:var(--sur2);border:1px solid var(--brd);
+               border-radius:7px;color:var(--txt);padding:9px;font-size:15px;
+               font-family:'DM Sans',sans-serif;resize:none;height:80px;outline:none}
+.modal textarea:focus{border-color:var(--acc)}
+.modal-foot{display:flex;gap:7px;justify-content:flex-end;margin-top:12px}
+.modal-foot .btn{width:auto;padding:7px 18px}
+
+/* toast */
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(70px);
+       background:var(--sur);border:1px solid var(--brd);border-radius:8px;
+       padding:8px 18px;font-size:12px;z-index:300;transition:transform .28s ease;white-space:nowrap}
+#toast.vis{transform:translateX(-50%) translateY(0)}
+#toast.ok{border-color:var(--ok);color:var(--ok)}
+#toast.err{border-color:#ff5555;color:#ff5555}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-logo">ThumbCraft</div>
+  <span class="hdr-badge">PRO</span>
+  <span class="hdr-right">Editor de portadas para plataformas adultas</span>
+</header>
+
+<div class="workspace">
+  <aside class="sidebar">
+
+    <div class="sec">
+      <div class="sec-ttl">Plataforma</div>
+      <div class="plat-grid" id="platGrid"></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-ttl">Formato</div>
+      <div class="pills" id="typePills"></div>
+      <div class="spec-badge" id="specBadge">Seleccioná una plataforma</div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-ttl">Imagen principal</div>
+      <label class="upbtn" id="imgZone">
+        <input type="file" id="fileInput" accept="image/*">
+        <span class="ui">🖼️</span>
+        <span id="imgLabel">Subir imagen base…</span>
+      </label>
+      <div class="prev-strip" id="imgPreview" style="display:none">
+        <img class="prev-thumb" id="imgThumb" src="" alt="">
+        <span class="prev-info" id="imgInfo"></span>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-ttl">Texto</div>
+      <div class="row">
+        <label>Fuente</label>
+        <select id="fontSel">
+          <option value="Impact">Impact</option>
+          <option value="Bebas Neue">Bebas Neue</option>
+          <option value="Arial Black">Arial Black</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Verdana">Verdana</option>
+          <option value="Tahoma">Tahoma</option>
+        </select>
+      </div>
+      <div class="row">
+        <label>Tamaño</label>
+        <input type="number" id="fontSize" value="60" min="8" max="500">
+        <input type="color" id="fontColor" value="#ffffff">
+      </div>
+      <div class="row">
+        <label>Estilo</label>
+        <div class="style-btns">
+          <button class="sbtn" id="boldBtn">B</button>
+          <button class="sbtn" id="italicBtn" style="font-style:italic">I</button>
+        </div>
+        <label style="margin-left:6px">Alinear</label>
+        <select id="textAlign" style="max-width:72px">
+          <option value="left">⬅</option>
+          <option value="center" selected>↔</option>
+          <option value="right">➡</option>
+        </select>
+      </div>
+      <div class="tog-row">
+        <span>Sombra</span>
+        <div class="tog" id="shadowTog"></div>
+      </div>
+      <div class="row">
+        <label>Borde</label>
+        <input type="range" id="strokeW" min="0" max="20" value="0">
+        <span class="rval" id="strokeWVal">0</span>
+        <input type="color" id="strokeColor" value="#000000">
+      </div>
+      <button class="btn btn-sec" id="addTextBtn">✚ Agregar texto</button>
+    </div>
+
+    <div class="sec">
+      <div class="sec-ttl">Logo / Watermark</div>
+      <label class="upbtn" id="logoZone">
+        <input type="file" id="logoInput" accept="image/*">
+        <span class="ui">🏷️</span>
+        <span id="logoLabel">Subir logo (PNG recomendado)…</span>
+      </label>
+      <div class="prev-strip" id="logoPreview" style="display:none">
+        <img class="prev-logo" id="logoThumb" src="" alt="">
+        <span class="prev-info" id="logoInfo"></span>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <label>Tamaño</label>
+        <input type="range" id="logoSizeR" min="20" max="800" value="150">
+        <span class="rval" id="logoSizeVal">150</span>
+      </div>
+      <div class="tog-row">
+        <span>Mantener proporción</span>
+        <div class="tog on" id="logoRatioTog"></div>
+      </div>
+      <div class="row">
+        <label>Opacidad</label>
+        <input type="range" id="logoOpacity" min="5" max="100" value="100">
+        <span class="rval" id="logoOpacityVal">100%</span>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-ttl">Capas</div>
+      <div class="layers" id="layersList"></div>
+      <div style="display:flex;gap:5px">
+        <button class="btn btn-sec btn-sm" id="upBtn">↑</button>
+        <button class="btn btn-sec btn-sm" id="downBtn">↓</button>
+        <button class="btn btn-del btn-sm" id="delBtn">✕ Eliminar</button>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-ttl">Exportar</div>
+      <div class="fmts">
+        <button class="fmt on" data-fmt="jpg">JPG</button>
+        <button class="fmt" data-fmt="png">PNG</button>
+        <button class="fmt" data-fmt="webp">WEBP</button>
+      </div>
+      <button class="btn btn-pri" id="exportBtn">⬇ Exportar portada</button>
+      <button class="btn btn-sec" id="exportAllBtn">📦 Exportar todas las plataformas</button>
+    </div>
+
+  </aside>
+
+  <main class="canvas-area" id="canvasArea">
+    <div class="grid-bg"></div>
+    <div class="ctbar">
+      <button class="tb on" id="toolSel" title="Seleccionar/Mover">↖</button>
+      <div class="tb-sep"></div>
+      <button class="tb" id="toolTxt" title="Agregar texto">T</button>
+      <button class="tb" title="Subir imagen" id="trigImg">🖼</button>
+      <button class="tb" title="Subir logo"   id="trigLgo">🏷</button>
+    </div>
+    <canvas id="canvas" width="1280" height="720"></canvas>
+    <div class="drop-msg" id="dropMsg">
+      <div class="di">🎬</div>
+      <div class="dt">Subí una imagen para comenzar · o arrastrá aquí</div>
+    </div>
+    <div class="zoom-bar">
+      <button class="zb" id="zoomOut">−</button>
+      <span class="zlbl" id="zoomLbl">100%</span>
+      <button class="zb" id="zoomIn">+</button>
+      <button class="zb" id="zoomFit" title="Ajustar">⊡</button>
+    </div>
+    <div class="stbar" id="stbar">Sin imagen · 1280×720 · 0 capas</div>
+  </main>
+</div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h4>✏️ Editar texto</h4>
+    <textarea id="modalTA" placeholder="Escribí el texto aquí..."></textarea>
+    <div class="modal-foot">
+      <button class="btn btn-sec" id="modalCancel">Cancelar</button>
+      <button class="btn btn-pri" id="modalOk">Aplicar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════
+//  ThumbCraft PRO  ·  Engine v2
+// ════════════════════════════════════════════
+
+const PLATS = {
+  'PornHub':  { icon:'🟠', types:{ thumbnail:{w:1280,h:720}, banner:{w:2400,h:600} } },
+  'XVideos':  { icon:'🔴', types:{ thumbnail:{w:1280,h:720} } },
+  'XHamster': { icon:'🐹', types:{ thumbnail:{w:1280,h:720} } },
+  'OnlyFans': { icon:'💙', types:{ post:{w:1500,h:1000}, vertical:{w:1080,h:1920}, profile:{w:1440,h:1440} } },
+  'Fansly':   { icon:'💜', types:{ post:{w:1500,h:1000}, vertical:{w:1080,h:1920} } },
+};
+
+const S = { plat:null, type:null, bgImg:null, layers:[], sel:null, zoom:1, fmt:'jpg' };
+const drag = { on:false, sx:0, sy:0, ox:0, oy:0 };
+
+const canvas = document.getElementById('canvas');
+const ctx    = canvas.getContext('2d');
+
+// ── Toast ──────────────────────────────────
+let _tid;
+function toast(msg, type='ok') {
+  const el = document.getElementById('toast');
+  clearTimeout(_tid);
+  el.textContent = msg;
+  el.className   = 'vis ' + type;
+  _tid = setTimeout(() => el.className = '', 3200);
+}
+
+// ── Spec ───────────────────────────────────
+function spec() {
+  if (S.plat && S.type && PLATS[S.plat]?.types[S.type])
+    return PLATS[S.plat].types[S.type];
+  return {w:1280,h:720};
+}
+
+function updateStatus() {
+  const sp = spec();
+  document.getElementById('stbar').textContent =
+    (S.bgImg ? '✓ imagen' : 'sin imagen') +
+    ' · ' + sp.w + '×' + sp.h +
+    ' · ' + S.layers.length + ' capa' + (S.layers.length!==1?'s':'');
+}
+
+// ── Platform UI ────────────────────────────
+function renderPlats() {
+  const g = document.getElementById('platGrid');
+  g.innerHTML = '';
+  Object.entries(PLATS).forEach(([id, p]) => {
+    const b = document.createElement('button');
+    b.className = 'plat-btn';
+    b.innerHTML = '<span class="pi">'+p.icon+'</span><span class="pn">'+id.toUpperCase()+'</span>';
+    b.addEventListener('click', () => {
+      S.plat = id;
+      S.type = Object.keys(p.types)[0];
+      document.querySelectorAll('.plat-btn').forEach(x => x.classList.remove('on'));
+      b.classList.add('on');
+      renderTypes();
+      resizeCanvas();
+    });
+    g.appendChild(b);
+  });
+}
+
+function renderTypes() {
+  const c = document.getElementById('typePills');
+  c.innerHTML = '';
+  if (!S.plat) return;
+  Object.keys(PLATS[S.plat].types).forEach(t => {
+    const b = document.createElement('button');
+    b.className = 'pill' + (t===S.type?' on':'');
+    b.textContent = t;
+    b.addEventListener('click', () => {
+      S.type = t;
+      document.querySelectorAll('.pill').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      resizeCanvas();
+    });
+    c.appendChild(b);
+  });
+  const sp = spec();
+  document.getElementById('specBadge').innerHTML = '<b>'+sp.w+'×'+sp.h+'px</b> — '+S.type;
+}
+
+// ── Canvas resize + zoom ────────────────────
+function resizeCanvas() {
+  const sp = spec();
+  canvas.width  = sp.w;
+  canvas.height = sp.h;
+  fitZoom();
+  draw();
+  updateStatus();
+}
+
+function fitZoom() {
+  const area = document.getElementById('canvasArea');
+  const aw = area.clientWidth  - 40;
+  const ah = area.clientHeight - 80;
+  const sp = spec();
+  S.zoom = Math.min(1, aw/sp.w, ah/sp.h);
+  applyZoom();
+}
+
+function applyZoom() {
+  canvas.style.width  = (canvas.width  * S.zoom)+'px';
+  canvas.style.height = (canvas.height * S.zoom)+'px';
+  document.getElementById('zoomLbl').textContent = Math.round(S.zoom*100)+'%';
+}
+
+document.getElementById('zoomIn').onclick  = ()=>{ S.zoom=Math.min(S.zoom+.1,4); applyZoom(); };
+document.getElementById('zoomOut').onclick = ()=>{ S.zoom=Math.max(S.zoom-.1,.08); applyZoom(); };
+document.getElementById('zoomFit').onclick = fitZoom;
+
+// ── Load background image ───────────────────
+// KEY FIX: use direct 'change' on the hidden input, no label click interception
+document.getElementById('fileInput').addEventListener('change', function() {
+  if (!this.files || !this.files[0]) return;
+  loadBgFile(this.files[0]);
+  this.value = ''; // allow same file again
+});
+
+document.getElementById('trigImg').onclick = () => document.getElementById('fileInput').click();
+
+function loadBgFile(file) {
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const img = new Image();
+    img.onload = function() {
+      S.bgImg = this;
+      // thumbnail preview
+      const thumb = document.getElementById('imgThumb');
+      thumb.src = ev.target.result;
+      document.getElementById('imgInfo').textContent =
+        this.naturalWidth+'×'+this.naturalHeight+'\n'+(file.size/1024).toFixed(0)+' KB';
+      document.getElementById('imgPreview').style.display = 'flex';
+      document.getElementById('imgLabel').textContent = file.name.length>28 ? file.name.slice(0,26)+'…' : file.name;
+      document.getElementById('dropMsg').classList.add('hidden');
+      fitZoom();
+      draw();
+      updateStatus();
+      toast('✅ Imagen cargada: '+file.name);
+    };
+    img.onerror = () => toast('❌ No se pudo leer la imagen', 'err');
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// drag & drop
+const area = document.getElementById('canvasArea');
+area.addEventListener('dragover', e => { e.preventDefault(); area.style.outline='2px solid #ff4d00'; });
+area.addEventListener('dragleave', () => area.style.outline='');
+area.addEventListener('drop', e => {
+  e.preventDefault();
+  area.style.outline='';
+  const f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith('image/')) loadBgFile(f);
+});
+
+// ── Load logo ───────────────────────────────
+document.getElementById('logoInput').addEventListener('change', function() {
+  if (!this.files || !this.files[0]) return;
+  loadLogoFile(this.files[0]);
+  this.value = '';
+});
+
+document.getElementById('trigLgo').onclick = () => document.getElementById('logoInput').click();
+
+function loadLogoFile(file) {
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const img = new Image();
+    img.onload = function() {
+      const size   = parseInt(document.getElementById('logoSizeR').value) || 150;
+      const keepR  = document.getElementById('logoRatioTog').classList.contains('on');
+      const aspect = this.naturalWidth / this.naturalHeight;
+      const w = size;
+      const h = keepR ? size / aspect : size;
+      const sp = spec();
+      const layer = {
+        id: Date.now(),
+        type: 'image',
+        label: file.name.replace(/\.[^.]+$/,''),
+        img: this,
+        x: (sp.w - w) / 2,
+        y: (sp.h - h) / 2,
+        w, h, aspect,
+        opacity: 1,
+      };
+      S.layers.push(layer);
+      S.sel = layer;
+
+      // preview
+      document.getElementById('logoThumb').src = ev.target.result;
+      document.getElementById('logoInfo').textContent = this.naturalWidth+'×'+this.naturalHeight;
+      document.getElementById('logoPreview').style.display = 'flex';
+      document.getElementById('logoLabel').textContent = file.name.length>28 ? file.name.slice(0,26)+'…' : file.name;
+
+      renderLayers();
+      syncSidebar();
+      draw();
+      updateStatus();
+      toast('🏷️ Logo agregado');
+    };
+    img.onerror = () => toast('❌ No se pudo cargar el logo', 'err');
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// logo size
+document.getElementById('logoSizeR').addEventListener('input', function() {
+  const size = parseInt(this.value);
+  document.getElementById('logoSizeVal').textContent = size;
+  if (S.sel && S.sel.type==='image') {
+    S.sel.w = size;
+    S.sel.h = document.getElementById('logoRatioTog').classList.contains('on')
+              ? size / S.sel.aspect : size;
+    draw();
+  }
+});
+
+// logo opacity
+document.getElementById('logoOpacity').addEventListener('input', function() {
+  const v = parseInt(this.value);
+  document.getElementById('logoOpacityVal').textContent = v+'%';
+  if (S.sel && S.sel.type==='image') { S.sel.opacity = v/100; draw(); }
+});
+
+document.getElementById('logoRatioTog').addEventListener('click', function() {
+  this.classList.toggle('on');
+});
+
+// ── Text layer ──────────────────────────────
+function addText() {
+  const sp = spec();
+  const layer = {
+    id: Date.now(), type:'text', label:'Texto',
+    text: 'DOBLE CLIC PARA EDITAR',
+    x: sp.w/2, y: sp.h/2,
+    size:    parseInt(document.getElementById('fontSize').value)||60,
+    font:    document.getElementById('fontSel').value,
+    color:   document.getElementById('fontColor').value,
+    bold:    document.getElementById('boldBtn').classList.contains('on'),
+    italic:  document.getElementById('italicBtn').classList.contains('on'),
+    align:   document.getElementById('textAlign').value,
+    stroke:  parseInt(document.getElementById('strokeW').value)||0,
+    strokeC: document.getElementById('strokeColor').value,
+    shadow:  document.getElementById('shadowTog').classList.contains('on'),
+  };
+  S.layers.push(layer);
+  S.sel = layer;
+  renderLayers();
+  syncSidebar();
+  draw();
+  updateStatus();
+  toast('✚ Texto agregado');
+}
+
+document.getElementById('addTextBtn').onclick = addText;
+document.getElementById('toolTxt').onclick    = addText;
+
+// live update text properties
+function liveText() {
+  const l = S.sel;
+  if (!l || l.type!=='text') return;
+  l.font   = document.getElementById('fontSel').value;
+  l.size   = parseInt(document.getElementById('fontSize').value)||60;
+  l.color  = document.getElementById('fontColor').value;
+  l.bold   = document.getElementById('boldBtn').classList.contains('on');
+  l.italic = document.getElementById('italicBtn').classList.contains('on');
+  l.align  = document.getElementById('textAlign').value;
+  l.stroke = parseInt(document.getElementById('strokeW').value)||0;
+  l.strokeC= document.getElementById('strokeColor').value;
+  l.shadow = document.getElementById('shadowTog').classList.contains('on');
+  draw();
+}
+
+['fontSel','fontSize','fontColor','textAlign','strokeColor'].forEach(id => {
+  document.getElementById(id).addEventListener('change', liveText);
+  document.getElementById(id).addEventListener('input',  liveText);
+});
+document.getElementById('strokeW').addEventListener('input', function() {
+  document.getElementById('strokeWVal').textContent = this.value;
+  liveText();
+});
+['boldBtn','italicBtn'].forEach(id => {
+  document.getElementById(id).addEventListener('click', function() {
+    this.classList.toggle('on'); liveText();
+  });
+});
+document.getElementById('shadowTog').addEventListener('click', function() {
+  this.classList.toggle('on'); liveText();
+});
+
+// sync sidebar ← selected layer
+function syncSidebar() {
+  const l = S.sel;
+  if (!l) return;
+  if (l.type==='text') {
+    document.getElementById('fontSel').value     = l.font;
+    document.getElementById('fontSize').value    = l.size;
+    document.getElementById('fontColor').value   = l.color;
+    document.getElementById('textAlign').value   = l.align||'center';
+    document.getElementById('strokeW').value     = l.stroke||0;
+    document.getElementById('strokeWVal').textContent = l.stroke||0;
+    document.getElementById('strokeColor').value = l.strokeC||'#000000';
+    document.getElementById('boldBtn').classList.toggle('on',  !!l.bold);
+    document.getElementById('italicBtn').classList.toggle('on',!!l.italic);
+    document.getElementById('shadowTog').classList.toggle('on',!!l.shadow);
+  }
+  if (l.type==='image') {
+    const sz = Math.round(l.w);
+    document.getElementById('logoSizeR').value         = sz;
+    document.getElementById('logoSizeVal').textContent = sz;
+    const op = Math.round((l.opacity??1)*100);
+    document.getElementById('logoOpacity').value           = op;
+    document.getElementById('logoOpacityVal').textContent = op+'%';
+  }
+}
+
+// ── Layers panel ────────────────────────────
+function renderLayers() {
+  const list = document.getElementById('layersList');
+  list.innerHTML = '';
+  [...S.layers].reverse().forEach(layer => {
+    const item = document.createElement('div');
+    item.className = 'li'+(layer===S.sel?' on':'');
+    const icon = layer.type==='text' ? 'T' : '🖼';
+    const lbl  = layer.type==='text' ? (layer.text.slice(0,20)||'Texto') : layer.label;
+    item.innerHTML =
+      '<span style="font-size:12px">'+icon+'</span>'+
+      '<span class="lic">'+lbl+'</span>'+
+      '<span class="lid">✕</span>';
+    item.addEventListener('click', e => {
+      if (e.target.classList.contains('lid')) return;
+      S.sel = layer; renderLayers(); syncSidebar(); draw();
+    });
+    item.querySelector('.lid').addEventListener('click', () => {
+      S.layers = S.layers.filter(l=>l!==layer);
+      if (S.sel===layer) S.sel=null;
+      renderLayers(); draw(); updateStatus();
+    });
+    list.appendChild(item);
+  });
+}
+
+document.getElementById('upBtn').onclick = () => {
+  if (!S.sel) return;
+  const i = S.layers.indexOf(S.sel);
+  if (i<S.layers.length-1){ [S.layers[i],S.layers[i+1]]=[S.layers[i+1],S.layers[i]]; renderLayers(); draw(); }
+};
+document.getElementById('downBtn').onclick = () => {
+  if (!S.sel) return;
+  const i = S.layers.indexOf(S.sel);
+  if (i>0){ [S.layers[i],S.layers[i-1]]=[S.layers[i-1],S.layers[i]]; renderLayers(); draw(); }
+};
+document.getElementById('delBtn').onclick = () => {
+  if (!S.sel) return;
+  S.layers = S.layers.filter(l=>l!==S.sel);
+  S.sel=null; renderLayers(); draw(); updateStatus();
+};
+
+// ── DRAW ENGINE ─────────────────────────────
+function fontStr(l) {
+  return (l.italic?'italic ':'')+
+         (l.bold?'bold ':'')+
+         l.size+'px '+l.font;
+}
+
+function layerBounds(l) {
+  if (l.type==='text') {
+    ctx.save();
+    ctx.font = fontStr(l);
+    const lines = l.text.split('\n');
+    let maxW = 0;
+    lines.forEach(line => { const w=ctx.measureText(line).width; if(w>maxW) maxW=w; });
+    ctx.restore();
+    const h = l.size * 1.3 * lines.length;
+    let ox = l.x;
+    if (l.align==='center') ox = l.x - maxW/2;
+    if (l.align==='right')  ox = l.x - maxW;
+    return { x:ox, y:l.y-l.size, w:maxW, h };
+  }
+  return { x:l.x, y:l.y, w:l.w, h:l.h };
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#111';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  if (S.bgImg) {
+    const img   = S.bgImg;
+    const scale = Math.max(canvas.width/img.naturalWidth, canvas.height/img.naturalHeight);
+    const dw    = img.naturalWidth  * scale;
+    const dh    = img.naturalHeight * scale;
+    const dx    = (canvas.width  - dw) / 2;
+    const dy    = (canvas.height - dh) / 2;
+    ctx.drawImage(img, dx, dy, dw, dh);
+  }
+
+  S.layers.forEach(l => {
+    if (l.type==='text') {
+      drawText(l);
+    } else if (l.type==='image' && l.img) {
+      ctx.save();
+      ctx.globalAlpha = l.opacity??1;
+      ctx.drawImage(l.img, l.x, l.y, l.w, l.h);
+      ctx.restore();
+    }
+    if (l===S.sel) drawSelection(l);
+  });
+}
+
+function drawText(l) {
+  const lines = l.text.split('\n');
+  const lineH = l.size * 1.3;
+  ctx.save();
+  ctx.font         = fontStr(l);
+  ctx.textAlign    = l.align||'center';
+  ctx.textBaseline = 'alphabetic';
+  if (l.shadow) {
+    ctx.shadowColor   = 'rgba(0,0,0,.85)';
+    ctx.shadowBlur    = l.size * .14;
+    ctx.shadowOffsetX = l.size * .04;
+    ctx.shadowOffsetY = l.size * .05;
+  }
+  lines.forEach((line, i) => {
+    const ty = l.y + i*lineH;
+    if (l.stroke>0) {
+      ctx.strokeStyle = l.strokeC;
+      ctx.lineWidth   = l.stroke*2;
+      ctx.lineJoin    = 'round';
+      ctx.strokeText(line, l.x, ty);
+    }
+    ctx.fillStyle = l.color;
+    ctx.fillText(line, l.x, ty);
+  });
+  ctx.restore();
+}
+
+function drawSelection(l) {
+  const b   = layerBounds(l);
+  const pad = 7;
+  ctx.save();
+  ctx.strokeStyle = '#ff4d00';
+  ctx.lineWidth   = Math.max(1.5, 2/S.zoom);
+  ctx.setLineDash([6/S.zoom, 3/S.zoom]);
+  ctx.strokeRect(b.x-pad, b.y-pad, b.w+pad*2, b.h+pad*2);
+  ctx.setLineDash([]);
+  const hs = Math.max(6, 8/S.zoom);
+  [[b.x-pad,b.y-pad],[b.x+b.w+pad,b.y-pad],
+   [b.x-pad,b.y+b.h+pad],[b.x+b.w+pad,b.y+b.h+pad]].forEach(([hx,hy]) => {
+    ctx.fillStyle = '#ff4d00';
+    ctx.fillRect(hx-hs/2, hy-hs/2, hs, hs);
+  });
+  ctx.restore();
+}
+
+// ── Mouse interaction ───────────────────────
+function canvasPt(e) {
+  const r = canvas.getBoundingClientRect();
+  return {
+    x: (e.clientX - r.left) / S.zoom,
+    y: (e.clientY - r.top)  / S.zoom,
+  };
+}
+
+function hitTest(pt) {
+  for (let i=S.layers.length-1; i>=0; i--) {
+    const b   = layerBounds(S.layers[i]);
+    const pad = 10;
+    if (pt.x>=b.x-pad && pt.x<=b.x+b.w+pad && pt.y>=b.y-pad && pt.y<=b.y+b.h+pad)
+      return S.layers[i];
+  }
+  return null;
+}
+
+canvas.addEventListener('mousedown', e => {
+  const pt  = canvasPt(e);
+  const hit = hitTest(pt);
+  if (hit) {
+    S.sel = hit;
+    drag.on = true;
+    drag.sx = pt.x; drag.sy = pt.y;
+    drag.ox = hit.x; drag.oy = hit.y;
+    canvas.style.cursor = 'grabbing';
+  } else {
+    S.sel = null;
+  }
+  renderLayers(); syncSidebar(); draw();
+});
+
+canvas.addEventListener('mousemove', e => {
+  const pt = canvasPt(e);
+  if (drag.on && S.sel) {
+    S.sel.x = drag.ox + (pt.x - drag.sx);
+    S.sel.y = drag.oy + (pt.y - drag.sy);
+    draw();
+  } else {
+    canvas.style.cursor = hitTest(pt) ? 'grab' : 'default';
+  }
+});
+
+canvas.addEventListener('mouseup',    () => { drag.on=false; canvas.style.cursor='default'; });
+canvas.addEventListener('mouseleave', () => { drag.on=false; });
+
+canvas.addEventListener('dblclick', e => {
+  const pt  = canvasPt(e);
+  const hit = hitTest(pt);
+  if (hit?.type==='text') { S.sel=hit; openModal(hit); }
+});
+
+// ── Text modal ──────────────────────────────
+function openModal(l) {
+  document.getElementById('modalTA').value = l.text;
+  document.getElementById('modalBg').classList.add('vis');
+  setTimeout(() => document.getElementById('modalTA').focus(), 80);
+}
+document.getElementById('modalOk').onclick = () => {
+  if (S.sel?.type==='text') {
+    S.sel.text  = document.getElementById('modalTA').value || S.sel.text;
+    S.sel.label = S.sel.text.slice(0,20);
+    renderLayers(); draw();
+  }
+  document.getElementById('modalBg').classList.remove('vis');
+};
+document.getElementById('modalCancel').onclick = () => document.getElementById('modalBg').classList.remove('vis');
+document.getElementById('modalBg').addEventListener('click', e => {
+  if (e.target===document.getElementById('modalBg'))
+    document.getElementById('modalBg').classList.remove('vis');
+});
+document.getElementById('modalTA').addEventListener('keydown', e => {
+  if (e.key==='Enter' && e.ctrlKey) document.getElementById('modalOk').click();
+});
+
+// ── Export ──────────────────────────────────
+document.querySelectorAll('.fmt').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.fmt').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    S.fmt = b.dataset.fmt;
+  });
+});
+
+const MIME = { jpg:'image/jpeg', png:'image/png', webp:'image/webp' };
+
+function doExport(fname, cbDone) {
+  if (!S.bgImg) { toast('⚠️ Subí una imagen primero','err'); return; }
+  const prevSel = S.sel;
+  S.sel = null;
+  draw();
+  const mime    = MIME[S.fmt]||'image/jpeg';
+  const quality = S.fmt==='jpg' ? 0.93 : undefined;
+  canvas.toBlob(blob => {
+    if (!blob) { toast('❌ Error al exportar','err'); return; }
+    const url = URL.createObjectURL(blob);
+    const a   = document.createElement('a');
+    a.href = url; a.download = fname;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    S.sel = prevSel;
+    draw();
+    if (cbDone) cbDone();
+    else toast('✅ Exportado: '+fname);
+  }, mime, quality);
+}
+
+document.getElementById('exportBtn').onclick = () => {
+  const p = (S.plat||'thumb').toLowerCase();
+  const t = S.type||'thumbnail';
+  doExport(p+'_'+t+'_'+Date.now()+'.'+S.fmt);
+};
+
+document.getElementById('exportAllBtn').onclick = async () => {
+  if (!S.bgImg) { toast('⚠️ Subí una imagen primero','err'); return; }
+  toast('⏳ Exportando todas las plataformas…');
+  const prevSel = S.sel;
+  const prevW   = canvas.width;
+  const prevH   = canvas.height;
+  S.sel = null;
+  const mime    = MIME[S.fmt]||'image/jpeg';
+  const quality = S.fmt==='jpg' ? 0.93 : undefined;
+  let count = 0;
+
+  for (const [pid, p] of Object.entries(PLATS)) {
+    for (const [tid, sp] of Object.entries(p.types)) {
+      canvas.width  = sp.w;
+      canvas.height = sp.h;
+      draw();
+      await new Promise(res => {
+        canvas.toBlob(blob => {
+          if (blob) {
+            const url = URL.createObjectURL(blob);
+            const a   = document.createElement('a');
+            a.href = url;
+            a.download = pid.toLowerCase()+'_'+tid+'_'+sp.w+'x'+sp.h+'.'+S.fmt;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            count++;
+          }
+          setTimeout(res, 280);
+        }, mime, quality);
+      });
+    }
+  }
+
+  canvas.width  = prevW;
+  canvas.height = prevH;
+  S.sel = prevSel;
+  fitZoom();
+  draw();
+  toast('✅ '+count+' archivos exportados');
+};
+
+// ── Keyboard shortcuts ─────────────────────
+document.addEventListener('keydown', e => {
+  if (document.getElementById('modalBg').classList.contains('vis')) return;
+  const active = document.activeElement.tagName;
+  if (active==='INPUT'||active==='TEXTAREA'||active==='SELECT') return;
+  if ((e.key==='Delete'||e.key==='Backspace') && S.sel) {
+    S.layers = S.layers.filter(l=>l!==S.sel);
+    S.sel=null; renderLayers(); draw(); updateStatus();
+  }
+  if (e.key==='Escape') { S.sel=null; renderLayers(); draw(); }
+  if (S.sel && ['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)) {
+    e.preventDefault();
+    const d = e.shiftKey ? 10 : 1;
+    if (e.key==='ArrowLeft')  S.sel.x -= d;
+    if (e.key==='ArrowRight') S.sel.x += d;
+    if (e.key==='ArrowUp')    S.sel.y -= d;
+    if (e.key==='ArrowDown')  S.sel.y += d;
+    draw();
+  }
+});
+
+// ── Init ───────────────────────────────────
+renderPlats();
+resizeCanvas();
+document.querySelector('.plat-btn').click();
+window.addEventListener('resize', fitZoom);
+
+console.log('✅ ThumbCraft PRO v2 — listo');
+</script>
+</body>
+</html>
